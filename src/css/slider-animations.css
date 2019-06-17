@@ -1,0 +1,72 @@
+.slide header span {
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.slide header h2 {
+  transition: all 0.5s ease;
+  /* -webkit-transform: translateY(-20px); */
+  transform: translateY(-50px);
+  opacity: 0;
+}
+
+.slide .genre-list {
+  transition: all 0.4s ease;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+/* .slide footer {
+  transition: all 0.4s ease;
+  opacity: 0;
+} */
+
+.slide.animateIn.next header span,
+.slide.animateIn.previous header span,
+.slide.current header span {
+  transition-delay: 1.7s;
+  opacity: 1;
+}
+
+.slide.animateIn.next header h2,
+.slide.animateIn.previous header h2,
+.slide.current header h2 {
+  transform: translateY(0);
+  transition-delay: 1.2s;
+  opacity: 1;
+}
+
+.slide.animateIn.next .genre-list,
+.slide.animateIn.previous .genre-list,
+.slide.current .genre-list {
+  transform: translateY(0);
+  transition-delay: 1.4s;
+  opacity: 1;
+}
+
+/* .slide.animateIn.next footer,
+.slide.animateIn.previous footer,
+.slide.current footer {
+  transition-delay: 1.8s;
+  opacity: 1;
+} */
+
+.slide.animateOut header span {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0s;
+}
+
+.slide.animateOut header h2 {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+}
+
+.slide.animateOut .genre-list {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+}
+
+/* .slide.animateOut footer {
+  -webkit-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+} */
