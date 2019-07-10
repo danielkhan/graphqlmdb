@@ -19,7 +19,9 @@
 .env.production.local
 
 /.netlify
-/functions
+/functions/*/node_modules
+/functions/*/package-lock.json
+/functions/*/package.json
 
 npm-debug.log*
 yarn-debug.log*
