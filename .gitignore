@@ -19,7 +19,6 @@
 .env.production.local
 
 /.netlify
-netlify.toml
 /functions
 
 npm-debug.log*
