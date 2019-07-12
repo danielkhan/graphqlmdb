@@ -18,21 +18,30 @@ ul {
 }
 
 .hero {
+  box-sizing: border-box;
   height: 100vh;
-  position: relative;
-  background: url("../images/movie-posters-mobile.png") no-repeat right top;
+  display: flex;
+  justify-content: center;
+  padding-top: 42px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
+    url("../images/movie-posters-mobile.png") no-repeat center center;
 }
 
 .hero div {
-  width: 280px;
-  position: absolute;
-  top: 60%;
-  left: 5%;
+  width: 340px;
+  align-self: center;
+  text-align: center;
+}
+
+.hero div p {
+  color: #fff;
+  text-shadow: 1px 1px 5px #000;
 }
 
 .hero div p {
   font-weight: 600;
   margin-bottom: 20px;
+  font-size: 1.2rem;
 }
 
 .btn {
@@ -300,19 +309,16 @@ ul {
   html {
     font-size: 20px;
   }
+  .hero div {
+    width: 400px;
+  }
   .btn--desktop {
     padding: 5px 20px;
   }
   .hero {
-    background: url("../images/movie-posters-desktop.png") no-repeat right
-      center;
+    background-size: cover;
   }
-  .hero div {
-    width: 460px;
-    top: 50%;
-    left: 5%;
-    text-align: left;
-  }
+
   .hero div p {
     font-size: 1.3rem;
   }
@@ -387,6 +393,22 @@ ul {
 @media (min-width: 1024px) {
   html {
     font-size: 24px;
+  }
+
+  .hero {
+    background: url("../images/movie-posters-desktop.png") no-repeat right
+      center;
+    justify-content: flex-start;
+    padding: 0 42px;
+  }
+  .hero div {
+    align-self: center;
+    width: 460px;
+    text-align: left;
+  }
+  .hero div p {
+    color: initial;
+    text-shadow: none;
   }
 
   .home-main {
