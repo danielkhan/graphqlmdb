@@ -22,7 +22,7 @@ const Movie = ({ movie }) => {
           <ul className="movie__genre">
             {movie.genre_ids
               .map(gid => genres.filter(g => g.id === gid).map(g => g.name))
-              .reduce((prev, next) => prev.concat(next))
+              // .reduce((prev, next) => prev.concat(next))
               .slice(0, 3)
               .map((genre, i) => (
                 <li key={i} className="movie__genre-item">
