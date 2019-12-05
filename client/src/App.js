@@ -1,5 +1,10 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
@@ -9,9 +14,15 @@ function App() {
   return (
     <Router>
       <Fragment>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/movies" component={Movies} />
-        <Route path="/details/:id" component={Details} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/movies/*" component={Movies} />
+          <Route
+            path="/movies/"
+            render={() => <Redirect exact to="/movies/in-theaters" />}
+          />
+          <Route path="/details/:id" component={Details} />
+        </Switch>
       </Fragment>
     </Router>
   );

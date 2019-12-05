@@ -1,33 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 import "../css/slider-animations.css";
 
-import { GenreContext } from "../contexts/GenreContext";
-import { ConfigContext } from "../contexts/ConfigContext";
-
-import Axios from "axios";
+const NOW_PLAYING_SLIDER = gql`
+  {
+    nowPlaying {
+      id
+      title
+      backdrop_path
+    }
+  }
+`;
 
 const Header = () => {
-  const [nowPlaying, setNowPlaying] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const { images } = useContext(ConfigContext);
-  const { genres } = useContext(GenreContext);
-
-  useEffect(() => {
-    Axios.get("/.netlify/functions/now_playing").then(res => {
-      // fetch the first five movies
-      setNowPlaying(res.data.results.slice(0, 5));
-      setLoading(false);
-    });
-  }, []);
-
-  const path = images.secure_base_url;
-  const imgSize = images.backdrop_sizes[2];
+  const { loading, error, data } = useQuery(NOW_PLAYING_SLIDER);
 
   if (loading) {
     return false;
+  }
+  if (error) {
+    return <p>Error</p>;
   }
   return (
     <header>
@@ -38,28 +34,17 @@ const Header = () => {
         previousButton=""
         nextButton=""
       >
-        {nowPlaying.map(m => (
+        {data.nowPlaying.slice(0, 4).map(m => (
           <div
             key={m.id}
             className="slider-item"
             style={{
-              background: `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(${path}${imgSize}${
-                m.backdrop_path
-              }) no-repeat center top / cover`
+              background: `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(${m.backdrop_path}) no-repeat center top / cover`
             }}
           >
             <header>
               <span>Now Playing</span>
               <h2>{m.title}</h2>
-              <ul className="genre-list">
-                {m.genre_ids
-                  .map(mg => genres.filter(g => g.id === mg).map(g => g.name))
-                  .reduce((prev, next) => prev.concat(next))
-                  .slice(0, 3)
-                  .map((genre, i) => (
-                    <li key={i}>{genre}</li>
-                  ))}
-              </ul>
             </header>
           </div>
         ))}

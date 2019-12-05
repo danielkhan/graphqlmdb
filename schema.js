@@ -18,7 +18,8 @@ const MovieType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     vote_average: { type: GraphQLFloat },
-    poster_path: { type: GraphQLString }
+    poster_path: { type: GraphQLString },
+    backdrop_path: { type: GraphQLString }
   })
 });
 
@@ -89,7 +90,7 @@ const CastType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    movies: {
+    nowPlaying: {
       type: new GraphQLList(MovieType),
       arguments: { id: { type: new GraphQLNonNull(GraphQLInt) } },
       resolve(parent, args) {
@@ -97,10 +98,40 @@ const RootQuery = new GraphQLObjectType({
           .get("http://localhost:8888/.netlify/functions/now_playing")
           .then(res => {
             const movies = res.data.results;
-            movies.map(
-              movie =>
-                (movie.poster_path = `https://image.tmdb.org/t/p/w342${movie.poster_path}`)
-            );
+            movies.map(movie => {
+              movie.poster_path = `https://image.tmdb.org/t/p/w342${movie.poster_path}`;
+              movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+            });
+            return movies;
+          });
+      }
+    },
+    upcomingMovies: {
+      type: new GraphQLList(MovieType),
+      resolve(parent, args) {
+        return axios
+          .get("http://localhost:8888/.netlify/functions/upcoming_movies")
+          .then(res => {
+            const movies = res.data.results;
+            movies.map(movie => {
+              movie.poster_path = `https://image.tmdb.org/t/p/w342${movie.poster_path}`;
+              movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+            });
+            return movies;
+          });
+      }
+    },
+    popularMovies: {
+      type: new GraphQLList(MovieType),
+      resolve(parent, args) {
+        return axios
+          .get("http://localhost:8888/.netlify/functions/popular_movies")
+          .then(res => {
+            const movies = res.data.results;
+            movies.map(movie => {
+              movie.poster_path = `https://image.tmdb.org/t/p/w342${movie.poster_path}`;
+              movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+            });
             return movies;
           });
       }
