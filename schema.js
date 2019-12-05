@@ -3,8 +3,10 @@ const axios = require("axios");
 const {
   GraphQLObjectType,
   GraphQLInt,
+  GraphQLID,
   GraphQLString,
-  //   GraphQLBoolean,
+  GraphQLFloat,
+  GraphQLNonNull,
   GraphQLList,
   GraphQLSchema
 } = require("graphql");
@@ -13,9 +15,73 @@ const {
 const MovieType = new GraphQLObjectType({
   name: "Movie",
   fields: () => ({
-    id: { type: GraphQLInt },
+    id: { type: GraphQLID },
+    title: { type: GraphQLString },
+    vote_average: { type: GraphQLFloat },
+    poster_path: { type: GraphQLString }
+  })
+});
+
+// Movie Details
+const MovieInfoType = new GraphQLObjectType({
+  name: "MovieInfo",
+  fields: () => ({
+    id: { type: GraphQLID },
+    title: { type: GraphQLString },
+    overview: { type: GraphQLString },
+    genres: { type: new GraphQLList(GenreType) },
+    release_date: { type: GraphQLString },
+    runtime: { type: GraphQLInt },
+    backdrop_path: { type: GraphQLString },
+    cast: {
+      type: new GraphQLList(CastType),
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return axios
+          .get(
+            `http://localhost:8888/.netlify/functions/get_movie_cast?movie_id=${parent.id}`
+          )
+          .then(res => res.data.cast);
+      }
+    },
+    recommended: {
+      type: new GraphQLList(MovieType),
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return axios
+          .get(
+            `http://localhost:8888/.netlify/functions/recommended_movies?movie_id=${parent.id}`
+          )
+          .then(res => {
+            const recommendedMovies = res.data.results;
+            recommendedMovies.map(
+              movie =>
+                (movie.poster_path = `https://image.tmdb.org/t/p/w154${movie.poster_path}`)
+            );
+            return recommendedMovies;
+          });
+      }
+    }
+  })
+});
+
+// Genre Type
+const GenreType = new GraphQLObjectType({
+  name: "Genre",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString }
+  })
+});
+
+// Cast Type
+const CastType = new GraphQLObjectType({
+  name: "Cast",
+  fields: () => ({
+    id: { type: GraphQLID },
+    character: { type: GraphQLString },
     name: { type: GraphQLString },
-    rating: { type: GraphQLString }
+    profile_path: { type: GraphQLString }
   })
 });
 
@@ -25,31 +91,37 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     movies: {
       type: new GraphQLList(MovieType),
+      arguments: { id: { type: new GraphQLNonNull(GraphQLInt) } },
       resolve(parent, args) {
         return axios
-          .get("/.netlify/functions/now_playing")
-          .then(res => res.data);
+          .get("http://localhost:8888/.netlify/functions/now_playing")
+          .then(res => {
+            const movies = res.data.results;
+            movies.map(
+              movie =>
+                (movie.poster_path = `https://image.tmdb.org/t/p/w342${movie.poster_path}`)
+            );
+            return movies;
+          });
+      }
+    },
+    movie: {
+      type: MovieInfoType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        return axios
+          .get(
+            `http://localhost:8888/.netlify/functions/movie_details?id=${args.id}`
+          )
+          .then(res => {
+            const movie = res.data;
+            movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+            return movie;
+          });
       }
     }
-    // movie: {
-    //   type: MovieType,
-    //   args: {
-    //     id: { type: GraphQLInt }
-    //   },
-    //   resolve(parent, args) {
-    //     //   return axios
-    //     //     .get(`https://api.spacexdata.com/v3/launches/${args.flight_number}`)
-    //     //     .then(res => res.data);
-    //   }
-    // },
-    // genres: {
-    //   type: new GraphQLList(GenreType),
-    //   resolve(parent, args) {
-    //     //   return axios
-    //     //     .get('https://api.spacexdata.com/v3/rockets')
-    //     //     .then(res => res.data);
-    //   }
-    // }
   }
 });
 
