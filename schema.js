@@ -86,6 +86,36 @@ const CastType = new GraphQLObjectType({
   })
 });
 
+const ActorType = new GraphQLObjectType({
+  name: "Actor",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    biography: { type: GraphQLString },
+    birthday: { type: GraphQLString },
+    place_of_birth: { type: GraphQLString },
+    poster_path: { type: GraphQLString },
+    movies: {
+      type: new GraphQLList(MovieType),
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return axios
+          .get(
+            `http://localhost:8888/.netlify/functions/actor_movie_credits?id=${parent.id}`
+          )
+          .then(res => {
+            const cast = res.data.cast;
+            cast.map(
+              c =>
+                (c.poster_path = `https://image.tmdb.org/t/p/w154${c.poster_path}`)
+            );
+            return cast;
+          });
+      }
+    }
+  })
+});
+
 // Root Query
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -151,6 +181,19 @@ const RootQuery = new GraphQLObjectType({
             movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
             return movie;
           });
+      }
+    },
+    actor: {
+      type: ActorType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        return axios
+          .get(
+            `http://localhost:8888/.netlify/functions/actor_details?id=${args.id}`
+          )
+          .then(res => res.data);
       }
     }
   }
