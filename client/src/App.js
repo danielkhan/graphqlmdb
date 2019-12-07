@@ -9,6 +9,7 @@ import {
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
 import Details from "./pages/Details";
+import Actor from "./pages/Actor";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             render={() => <Redirect exact to="/movies/in-theaters" />}
           />
           <Route path="/details/:id" component={Details} />
+          <Route path="/actor/:id" component={Actor} />
         </Switch>
       </Fragment>
     </Router>

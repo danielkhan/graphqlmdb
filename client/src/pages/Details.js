@@ -109,19 +109,21 @@ const Details = props => {
             {data.movie.cast
               .filter(c => c.profile_path !== null)
               .map(c => (
-                <li key={c.id}>
-                  <figure className="cast">
-                    <img
-                      className="cast__profile"
-                      src={`https://image.tmdb.org/t/p/w185${c.profile_path}`}
-                      alt={c.name}
-                    />
-                    <figcaption>
-                      <h6 className="cast__name">{c.name}</h6>
-                      <p className="cast__character-name">as {c.character}</p>
-                    </figcaption>
-                  </figure>
-                </li>
+                <Link to={`/actor/${c.id}`} key={c.id}>
+                  <li>
+                    <figure className="cast">
+                      <img
+                        className="cast__profile"
+                        src={`https://image.tmdb.org/t/p/w185${c.profile_path}`}
+                        alt={c.name}
+                      />
+                      <figcaption>
+                        <h6 className="cast__name">{c.name}</h6>
+                        <p className="cast__character-name">as {c.character}</p>
+                      </figcaption>
+                    </figure>
+                  </li>
+                </Link>
               ))}
           </ul>
         </section>

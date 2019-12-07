@@ -1,3 +1,8 @@
 /node_modules
+
+/functions/*/node_modules
+/functions/*/package-lock.json
+/functions/*/package.json
+
 # Local Netlify folder
 .netlify
