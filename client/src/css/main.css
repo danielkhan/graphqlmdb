@@ -19,7 +19,7 @@ ul {
 
 .hero {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
-    url("../images/movie-posters-mobile.png") no-repeat center center;
+    url("../images/movie-posters-img.jpg") no-repeat center center;
 }
 
 .hero .container {
@@ -430,21 +430,8 @@ a.active-link {
   html {
     font-size: 24px;
   }
-
-  .hero {
-    background: url("../images/movie-posters-desktop.png") no-repeat right
-      center;
-  }
-  .hero-wrapper {
-    justify-content: flex-start;
-  }
   .hero-wrapper div {
-    width: 460px;
-    text-align: left;
-  }
-  .hero-wrapper div p {
-    color: initial;
-    text-shadow: none;
+    width: 600px;
   }
 
   .home-main {
@@ -471,5 +458,14 @@ a.active-link {
   .cast__character-name {
     font-size: 0.55rem;
     width: 145px;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 40px;
+  }
+  .hero-wrapper div {
+    width: 800px;
   }
 }
