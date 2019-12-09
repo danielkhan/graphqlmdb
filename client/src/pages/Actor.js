@@ -64,14 +64,14 @@ const Actor = props => {
           <p>Known For</p>
           <ul className="recommended-movies-list">
             {data.actor.movies
-              .filter(movie => movie.poster_path != null)
+              .filter(movie => movie.poster_path !== null)
               .map(movie => (
                 <li key={movie.id}>
                   <Link to={`/details/${movie.id}`}>
                     <figure className="recommended-movie">
                       <img
                         className="recommended-movie__poster"
-                        src={movie.poster_path}
+                        src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                         alt={movie.name}
                       />
                     </figure>

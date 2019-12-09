@@ -103,14 +103,7 @@ const ActorType = new GraphQLObjectType({
           .get(
             `http://localhost:8888/.netlify/functions/actor_movie_credits?id=${parent.id}`
           )
-          .then(res => {
-            const cast = res.data.cast;
-            cast.map(
-              c =>
-                (c.poster_path = `https://image.tmdb.org/t/p/w154${c.poster_path}`)
-            );
-            return cast;
-          });
+          .then(res => res.data.cast);
       }
     }
   })
