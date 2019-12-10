@@ -39,7 +39,7 @@ const Header = () => {
             key={m.id}
             className="slider-item"
             style={{
-              background: `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(${m.backdrop_path}) no-repeat center top / cover`
+              background: `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(https://image.tmdb.org/t/p/w1280${m.backdrop_path}) no-repeat center top / cover`
             }}
           >
             <header>

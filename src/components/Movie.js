@@ -17,7 +17,7 @@ const IN_THEATERS = gql`
 
 const UPCOMING_MOVIES = gql`
   {
-    upcomingMovies {
+    comingSoon {
       id
       title
       poster_path
@@ -28,7 +28,7 @@ const UPCOMING_MOVIES = gql`
 
 const POPULAR_MOVIES = gql`
   {
-    popularMovies {
+    popular {
       id
       title
       poster_path
@@ -63,7 +63,7 @@ const Movie = props => {
           <figure className="movie">
             <img
               className="movie__poster"
-              src={`${movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
               alt={`${movie.title || movie.name}`}
             />
             <figcaption>
@@ -80,12 +80,12 @@ const Movie = props => {
     case "coming-soon":
       if (upcomingMoviesLoader) return false;
       if (upcomingMoviesError) return false;
-      return upcomingMoviesData.upcomingMovies.map(movie => (
+      return upcomingMoviesData.comingSoon.map(movie => (
         <Link key={movie.id} to={`/details/${movie.id}`}>
           <figure className="movie">
             <img
               className="movie__poster"
-              src={`${movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
               alt={`${movie.title || movie.name}`}
             />
             <figcaption>
@@ -102,12 +102,12 @@ const Movie = props => {
     case "popular":
       if (popularMoviesLoader) return false;
       if (popularMoviesError) return false;
-      return popularMoviesData.popularMovies.map(movie => (
+      return popularMoviesData.popular.map(movie => (
         <Link key={movie.id} to={`/details/${movie.id}`}>
           <figure className="movie">
             <img
               className="movie__poster"
-              src={`${movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
               alt={`${movie.title || movie.name}`}
             />
             <figcaption>
