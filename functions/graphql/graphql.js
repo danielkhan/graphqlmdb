@@ -1,7 +1,7 @@
 const { ApolloServer, gql } = require("apollo-server-lambda");
 const axios = require("axios");
 
-const port = "" || "http://localhost:8888";
+const port = process.env.SITE_URL || "http://localhost:8888";
 
 const typeDefs = gql`
   type Movie {
