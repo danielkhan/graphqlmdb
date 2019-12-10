@@ -57,7 +57,7 @@ const Details = props => {
   if (error) {
     return false;
   }
-  const backgroundImg = `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(${data.movie.backdrop_path}) no-repeat center center / cover`;
+  const backgroundImg = `linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url(https://image.tmdb.org/t/p/w1280${data.movie.backdrop_path}) no-repeat center center / cover`;
   return (
     <Fragment>
       <header className="details-header" style={{ background: backgroundImg }}>
@@ -141,7 +141,7 @@ const Details = props => {
                     <figure className="recommended-movie">
                       <img
                         className="recommended-movie__poster"
-                        src={`${movie.poster_path}`}
+                        src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                         alt={movie.title}
                       />
                     </figure>

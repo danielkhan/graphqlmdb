@@ -7,7 +7,7 @@ import "./css/main.css";
 import * as serviceWorker from "./serviceWorker";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql"
+  uri: "/.netlify/functions/graphql"
 });
 
 ReactDOM.render(
