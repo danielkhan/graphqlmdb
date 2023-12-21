@@ -119,7 +119,7 @@ const Details = props => {
                       />
                       <figcaption>
                         <h6 className="cast__name">{c.name}</h6>
-                        {c.character != "" && (
+                        {c.character !== "" && (
                           <p className="cast__character-name">
                             as {c.character}
                           </p>
